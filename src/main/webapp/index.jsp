@@ -1,5 +1,2 @@
-<html>
-<body>
-<h2>Desde jsp</h2>
-</body>
-</html>
+<%@ include file = "/WEB-INF/views/include.jsp" %>
+<c:redirect url = "/home"/>
