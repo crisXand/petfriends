@@ -28,7 +28,8 @@
     </sec:http>
  
     
- 	
+ 	<beans:bean name="bcryptEncoder"
+	class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
   	<sec:authentication-manager>
         <authentication-provider ref="customAuthenticationProvider"/>
         	
