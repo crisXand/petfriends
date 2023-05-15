@@ -3,7 +3,7 @@ package chr.springjpaxml.auth;
 import java.util.ArrayList;
 import java.util.List;
 
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -12,10 +12,11 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
-
+import chr.springjpaxml.service.AuthenticationInterfaceService;
 @Component
 public class CustomAuthenticationProvider implements AuthenticationProvider{
-	
+	@Autowired
+	private  AuthenticationInterfaceService authService;
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 		// TODO Auto-generated method stub
@@ -33,8 +34,8 @@ public class CustomAuthenticationProvider implements AuthenticationProvider{
 	}
 	
 	private boolean authorizedUser(String user, String pass) {
-		 System.out.println("username is :" + user+" and password is "+pass );
-		 if("chr".equals(user) && "123456".equals(pass))
+		 
+		 if("chr".equals(user) && authService.authenticate(pass))
              return true;
 		 return false;
 	}
