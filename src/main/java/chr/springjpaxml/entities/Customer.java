@@ -1,5 +1,7 @@
 package chr.springjpaxml.entities;
 
+import java.util.Set;
+
 import javax.persistence.*;
 
 @Entity
@@ -19,6 +21,9 @@ public class Customer {
 	@Column(name="address")
 	private String address;
 
+	@OneToMany(mappedBy = "customer")
+	private Set<Pet> pets;
+	
 	public Customer() {
 		
 	}

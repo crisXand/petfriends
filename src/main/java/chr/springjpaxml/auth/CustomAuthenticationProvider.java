@@ -1,6 +1,7 @@
 package chr.springjpaxml.auth;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
+import chr.springjpaxml.entities.Rol;
+import chr.springjpaxml.entities.User;
 import chr.springjpaxml.service.AuthenticationInterfaceService;
 @Component
 public class CustomAuthenticationProvider implements AuthenticationProvider{
@@ -22,11 +25,15 @@ public class CustomAuthenticationProvider implements AuthenticationProvider{
 		// TODO Auto-generated method stub
 		String user = authentication.getName();
 		String pass = authentication.getCredentials().toString();
-		System.out.print(user+pass);
+		
 		if(authorizedUser(user,pass)) {
 			List<GrantedAuthority> grantedAuth = new ArrayList<>();
 			grantedAuth.add(() -> "AUTH_USER");
-			Authentication auth = new UsernamePasswordAuthenticationToken(user,pass,grantedAuth);
+			HashSet<Rol> roles = new HashSet<Rol>();
+			Rol rol = new Rol("ADMIN");
+			roles.add(rol);
+			User userObject = new User(user,pass,true, roles);
+			Authentication auth = new UsernamePasswordAuthenticationToken(userObject,pass,grantedAuth);
 			return auth;
 		}else {
 			throw new AuthenticationCredentialsNotFoundException("Invalid credentials");
@@ -35,7 +42,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider{
 	
 	private boolean authorizedUser(String user, String pass) {
 		 
-		 if("chr".equals(user) && authService.authenticate(pass))
+		 if(authService.authenticate(user,pass))
              return true;
 		 return false;
 	}
