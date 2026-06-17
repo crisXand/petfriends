@@ -27,6 +27,14 @@
 	            <bean class="org.springframework.instrument.classloading.InstrumentationLoadTimeWeaver"/>
 		</property>                             
 		<property name="persistenceUnitName" value="springappPU"></property>
+		<property name="jpaProperties">
+        	<props>
+            	<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+            	<prop key="hibernate.hbm2ddl.auto">update</prop>
+            	<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+            	<prop key="hibernate.generate_statistics">${hibernate.generate_statistics}</prop>
+        	</props>
+    	</property>
     </bean>
 	 
     <bean id="jpaAdapter"
